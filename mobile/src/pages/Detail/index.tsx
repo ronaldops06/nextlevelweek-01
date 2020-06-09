@@ -17,6 +17,8 @@ interface Data {
         name: string;
         email: string;
         whatsapp: string;
+        latitude: number;
+        longitude: number;
         city: string;
         uf: string;
     };
@@ -52,6 +54,14 @@ const Detail = () => {
             subject: 'Interesse em coleta de resíduos',
             recipients: [data.point.email],
         });    
+    }
+
+    function handleItinerary(latitude: number, longitude: Number) {
+      if (Platform.OS === 'ios'){ 
+        Linking.openURL('http://maps.apple.com/maps?daddr=' + latitude + ',' + longitude)
+      }else{
+        Linking.openURL('http://maps.google.com/maps?daddr=' + latitude + ',' + longitude)
+      }
     }
 
     if (!data.point){
@@ -91,6 +101,12 @@ const Detail = () => {
                 >
                     <Icon name="mail" size={20} color="#FFF" />
                     <Text style={styles.buttonText}>E-mail</Text>
+                </RectButton>
+                <RectButton 
+                  style={styles.button}
+                  onPress={()=>handleItinerary(data.point.latitude, data.point.longitude)}>
+                  <Icon name="map-pin" size={20} color="#fff"/>
+                  <Text style={styles.buttonText}>Como chegar</Text>
                 </RectButton>
             </View>
         </SafeAreaView>
@@ -154,20 +170,21 @@ const styles = StyleSheet.create({
     },
     
     button: {
-      width: '48%',
+      width: '32%',
       backgroundColor: '#34CB79',
       borderRadius: 10,
-      height: 50,
-      flexDirection: 'row',
+      height: 62,
+      flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center'
     },
   
     buttonText: {
-      marginLeft: 8,
+      //marginLeft: 8,
       color: '#FFF',
       fontSize: 16,
       fontFamily: 'Roboto_500Medium',
+      justifyContent: 'center'
     },
   });
 

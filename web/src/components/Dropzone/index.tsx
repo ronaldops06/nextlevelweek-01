@@ -13,6 +13,7 @@ const Dropzone: React.FC<Props> = ({onFileUploaded}) => {
 
   const onDrop = useCallback((acceptedFiles) => {
     const file = acceptedFiles[0];
+    console.log(file);
 
     const fileUrl = URL.createObjectURL(file);
 
